@@ -1,0 +1,22 @@
+{
+  "name": "blog.kielanlemons.com-api",
+  "version": "1.0.0",
+  "description": "graphqlapi for blog",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "apollo-server-express": "2.4.8",
+    "graphql": "14.2.1",
+    "graphql-tools": "4.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node src",
+    "dev": "nodemon src"
+  },
+  "author": "kielan lemons",
+  "license": "MIT"
+}
