@@ -26,10 +26,10 @@ const books = [
 // The GraphQL schema in string form
 const typeDefs = `
   type Query {
-    books: [book]
-    book(title: String!): book
+    books: [Book]
+    book(title: String!): Book
   }
-  type book { title: String!, author: String!, slug: String! }
+  type Book { title: String!, author: String!, slug: String! }
 `;
 
 // The resolvers
@@ -45,11 +45,24 @@ const resolvers = {
       })
     }),
    },
-   book: {
+   Book: {
      title: (root, args, context, info) => {
        //args is empty, need to match arg w book.title
-       console.log('resolve Book: ', root, 'args: ', args, 'context', context, 'info', info);//JSON.stringify(root.book))
-       return books.filter(book => book.title);//JSON.stringify({"title": root.title});
+       /*
+       context:  {
+        _extensionStack:
+         GraphQLExtensionStack {
+           extensions: [ [FormatErrorExtension], [CacheControlExtension] ]
+         }
+       }
+       , root,
+       */
+       console.log('resolve Book args: ', args, 'info', info);//JSON.stringify(root.book))
+       return books.filter(book => {
+         if(book.title == root.title) {
+           return book;
+         }
+       });//JSON.stringify({"title": root.title});
      }
    }
 };
