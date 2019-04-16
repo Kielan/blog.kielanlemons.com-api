@@ -6,6 +6,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { ApolloServer } = require('apollo-server-express');
 const { makeExecutableSchema } = require('graphql-tools');
+const { find, filter } = require('lodash');
 
 // Some fake data
 //test handling of apostrophe later
@@ -55,18 +56,16 @@ const resolvers = {
            extensions: [ [FormatErrorExtension], [CacheControlExtension] ]
          }
        }
-       , root,
        */
        console.log('resolve Book args: ', args, 'info', info);//JSON.stringify(root.book))
        return books.filter(book => {
          if(book.title == root.title) {
            return book;
          }
-       });//JSON.stringify({"title": root.title});
+       });
      }
    }
 };
-//    book: (_, { title }) => books.filter(book => book.title == title),
 
 
 // Put together a schema
