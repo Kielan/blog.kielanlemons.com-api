@@ -29,41 +29,51 @@ const typeDefs = `
   type Query {
     books: [Book]
     book(title: String!): Book
+    bookList: BookList
+    title: Book
   }
-  type Book { title: String!, author: String!, slug: String! }
+  type Book {
+    title: String!, author: String!, slug: String!
+  }
+  type BookList {
+    books: [Book]
+  }
 `;
 
 // The resolvers
 const resolvers = {
   Query: {
     books: () => books,
-    book: (_, { title }) => books.filter(book => {
-      return new Promise((resolve, reject) => {
-        if(book.title == title) {
-          console.log('hack log resolve book _: ', JSON.stringify(book))
-          resolve(JSON.stringify(book));
-        }
-      })
-    }),
+    book: (_, { title }) => {
+      return find(books, { title: title})
+    },
+    title: (_, { title }) => {
+      console.log('hack Query.title resolve _: ', _, 'title', title)
+      let book = find(books, { title: title });
+      return book.title
+    }
+   },
+   BookList: {
+     books(title) {
+       return filter(books, { title: title })
+     }
    },
    Book: {
-     title: (root, args, context, info) => {
-       //args is empty, need to match arg w book.title
-       /*
-       context:  {
-        _extensionStack:
-         GraphQLExtensionStack {
-           extensions: [ [FormatErrorExtension], [CacheControlExtension] ]
-         }
-       }
-       */
-       console.log('resolve Book args: ', args, 'info', info);//JSON.stringify(root.book))
-       return books.filter(book => {
-         if(book.title == root.title) {
-           return book;
-         }
-       });
-     }
+     author(book) {
+       console.log('hack resolve Book authorZZ_: ', book, 'filter: ', filter(books, { author: book.author }))//JSON.stringify(title))
+       let authorItem = filter(books, { author: book.author })
+       return authorItem[0].author;
+     },
+     title(book) {
+       let bookItem = filter(books, { title: book.title })
+       console.log('hack resolve Book titleZZ_: ', bookItem)//JSON.stringify(title))
+       return bookItem[0].title;
+     },
+     slug(book) {
+       console.log('hack resolve Book slugZZ_: ', book, 'filter: ', filter(books, { slug: book.slug }))//JSON.stringify(title))
+       let slugItem = filter(books, { slug: book.slug })
+       return slugItem[0].slug;
+     },
    }
 };
 
