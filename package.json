@@ -5,18 +5,23 @@
   "dependencies": {
     "apollo-server-express": "2.4.8",
     "body-parser": "^1.17.2",
+    "casual": "1.6.0",
     "express": "^4.15.3",
     "graphql": "14.2.1",
     "graphql-tools": "4.0.4",
     "lodash": "^4.17.11"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "easygraphql-tester": "5.1.2",
+    "jest": "^24.7.1",
+    "nodemon": "^1.11.0",
+    "randexp": "0.5.3"
   },
   "main": "index.js",
   "scripts": {
     "start": "node src",
-    "dev": "nodemon src"
+    "dev": "nodemon src",
+    "test": "jest"
   },
   "author": "kielan lemons",
   "license": "MIT"
