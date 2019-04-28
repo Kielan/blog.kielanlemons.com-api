@@ -1,0 +1,17 @@
+function resolve(inputVal) {
+  var valueAST = (0, _astFromValue.astFromValue)(inputVal.defaultValue, inputVal.type);
+  return valueAST ? (0, _printer.print)(valueAST) : null;
+}
+
+function defaultFieldResolver(source, args, contextValue, info) {
+  // ensure source is a value for which property access is acceptable.
+  if (_typeof(source) === 'object' || typeof source === 'function') {
+    var property = source[info.fieldName];
+
+    if (typeof property === 'function') {
+      return source[info.fieldName](args, contextValue, info);
+    }
+
+    return property;
+  }
+}
