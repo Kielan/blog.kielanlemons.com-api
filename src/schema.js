@@ -1,5 +1,10 @@
+'use strict'
+const { GraphQLSchema, GraphQLObjectType } = require('graphql')
 const { makeExecutableSchema } = require('graphql-tools')
 const { find, filter } = require('lodash')
+
+const queries = require('./queries')
+const mutations = require('./mutations')
 
 const books = [
   {
@@ -25,13 +30,24 @@ const typeDefs = `
     title: String!, author: String!, slug: String!
   }
 `
+const schema = new GraphQLSchema({
+  query: new GraphQLObjectType({
+    name: 'Query',
+    fields: queries
+  }),
+  mutation: new GraphQLObjectType({
+    name: 'Mutation',
+    fields: mutations
+  }),
+})
 
 // The resolvers
 const resolvers = {
   Query: {
     books: () => books,
-    book: (_, { title }) => {
-      return find(books, { title: title})
+    book: (_, { slug }) => {
+      console.log('Query.book resolve _ slug: ', slug)
+      return find(books, { slug: slug})
     },
     title: (_, { title }) => {
       let book = find(books, { title: title });
@@ -49,17 +65,10 @@ const resolvers = {
      },
      slug(book) {
        let slugItem = filter(books, { slug: book.slug })
-       console.log('Query.title resolve _: ', book)
        return slugItem[0].slug;
      },
    }
 }
-
-// Put together a schema
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
-})
 
 module.exports.resolvers = resolvers
 module.exports.typeDefs = typeDefs

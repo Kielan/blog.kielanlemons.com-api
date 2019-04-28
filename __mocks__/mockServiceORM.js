@@ -10,18 +10,26 @@ const {
 } = require('lodash')
 
 const booksMock = [
-  {"author": 'J.K. Rowling', "slug": 'harry_potter', "title": 'Harry Potter'},
-  {"author": 'Michael Crichton', "slug": 'jurassic_park', "title": 'Jurassic Park'},
+  {
+    "author": 'J.K. Rowling',
+    "slug": 'harry_potter',
+    "title": 'Harry Potter'
+  },
+  {
+    "author": 'Michael Crichton',
+    "slug": 'jurassic_park',
+    "title": 'Jurassic Park'
+  },
 ]
 
-const booksMockTwo = {
-  Book: () => ({
-    ISBN: new RandExp(/ISBN-\d-\d{3}-\d{5}-\d/)
-        .gen(),
-    title: startCase(casual.title)
+const postsMockTwo = {
+  Post: () => ({
+    author: '',
+    slug: '',
+    title: '',
   })
 }
 
-const MockServiceORM = () => booksMockTwo
+const MockServiceORM = () => postsMockTwo
 
 module.exports = { MockServiceORM }

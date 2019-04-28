@@ -1,22 +1,29 @@
 'use strict'
 
 // see https://www.apollographql.com/docs/apollo-server/example.html for more info
-
+//const { createServer } = require('https');
 const express = require('express')
 const bodyParser = require('body-parser')
 const { ApolloServer } = require('apollo-server-express')
+const db = require('./db')
 const { makeExecutableSchema } = require('graphql-tools')
 const { find, filter } = require('lodash')
 const { resolvers, schema, typeDefs } = require('./schema')
+const queries = require('./queries')
+const post = require('./types/post')
+const context = require('./tools/context')
+const { CMSDataSource } = require('./dataLayer')
 // Some fake data
-//test handling of apostrophe later
+//test handling of apostrophes later
 // and the Sorcerer's stone
 
-
+console.log('CMSDataSource is not a constructorrep: ', CMSDataSource)
 // GraphQL: Schema
 const SERVER = new ApolloServer({
-  typeDefs: typeDefs,
-  resolvers: resolvers,
+  schema: schema,
+  dataSources: () => ({
+    CMSDataSource: new CMSDataSource(),
+  }),
   introspection: true,
   uploads: false,
   playground: {
@@ -29,6 +36,8 @@ const SERVER = new ApolloServer({
 
 // Initialize the app
 const app = express();
+
+app.db = db;
 
 // Middleware: GraphQL
 SERVER.applyMiddleware({

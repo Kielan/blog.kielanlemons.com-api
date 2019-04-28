@@ -91,11 +91,11 @@ describe(`${__filename}__Queries`, () => {
     test('query book(title: ${title}', async (done) => {
       let { query, variables, context, expected } = obj
       //console.log('console.log_kielan query book(title: ${title}zzMockServiceInst: ', MockServiceInst());
-//      const result = await graphql(schema, query, null, context.MockServiceORM(), variables);//context.MockServiceOrm(), variables);
-      const result = await tester.graphql(query, undefined, context.MockServiceORM(), { isLocal: false })
-      console.log('console.log_kielan tester.query book(title: ${title}zzresult: ', result);
+      const result = await graphql(schema, query, null, context.MockServiceORM(), variables);//context.MockServiceOrm(), variables);
+      console.log('console.log_kielan result = await graphql: ', result);
       expect(result).toEqual(expected)
       done();
     })
   })
 })
+//      const result = await tester.graphql(query, undefined, context.MockServiceORM(), { isLocal: false })
